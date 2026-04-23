@@ -43,6 +43,7 @@ export const addMenuItem = TryCatch(async (req: AuthenticatedRequest, res) => {
         name, description, price,
         restaurantId: restaurant._id,
         image: uploadResult.uri,
+        
     })
     res.json({
         message: "Item Added Successfully",
