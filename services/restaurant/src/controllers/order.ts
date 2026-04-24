@@ -124,7 +124,7 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   const [longitude, latitude] = address.location.coordinates;
 
-  const riderAmount = Math.ceil(distance) * 17;
+  const riderAmount = Math.ceil(distance) * 16;
 
   const order = await Order.create({
     userId: user._id.toString(),
