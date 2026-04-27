@@ -105,3 +105,70 @@ export const updateStatusRestaurant = TryCatch(async (req, res) => {
         restaurant,
     });
 });
+export const updateRestaurant = TryCatch(async (req, res) => {
+    if (!req.user) {
+        return res.status(403).json({
+            message: "Please Login",
+        });
+    }
+    const { name, description } = req.body;
+    const restaurant = await Restaurant.findOneAndUpdate({ ownerId: req.user._id }, { name: name, description: description }, { new: true });
+    if (!restaurant) {
+        res.status(404).json({
+            message: "Restaurant not found",
+        });
+    }
+    res.json({
+        message: "Restaurant updated",
+        restaurant,
+    });
+});
+export const getNearbyRestaurant = TryCatch(async (req, res) => {
+    const { latitude, longitude, radius = 5000, search = "" } = req.query;
+    if (!latitude || longitude) {
+        return res.status(400).json({
+            message: "Latitude and longitude are required"
+        });
+    }
+    const query = {
+        isVerified: true
+    };
+    if (search && typeof search === "string") {
+        query.name = { $regex: search, $option: "i" };
+    }
+    const restaurant = await Restaurant.aggregate([{
+            $geoNear: {
+                near: {
+                    type: "Point",
+                    coordinates: [Number(longitude), Number(latitude)]
+                },
+                distanceField: "distance",
+                maxDistance: Number(radius),
+                spherical: true,
+                query,
+            },
+        },
+        {
+            $sort: {
+                isOpen: -1,
+                distance: 1,
+            },
+        },
+        {
+            $addFields: {
+                distanceKm: {
+                    $round: [{ $divide: ["$distance", 1000] }, 2],
+                }
+            }
+        }
+    ]);
+    res.json({
+        success: true,
+        count: restaurant.length,
+        restaurant,
+    });
+});
+export const fetchSingleRestaurant = TryCatch(async (req, res) => {
+    const restaurant = await Restaurant.findById(req.params.id);
+    res.json(restaurant);
+});
