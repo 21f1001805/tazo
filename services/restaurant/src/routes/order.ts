@@ -29,4 +29,4 @@ router.put("/assign/rider", assignRiderToOrder);
 router.get("/current/rider", getCurrentOrderForRider);
 router.put("/update/status/rider", updateOrderStatusRider);
 
-export default router;
+export default router; 

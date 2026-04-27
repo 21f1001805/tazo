@@ -30,14 +30,20 @@ const App = () => {
         <Route path='/Login' element={<Login />}/>
       </Route>
       <Route element={<ProtectedRoute/>}>
-        <Route path='/' element={<Home />}/>
-        <Route path='/paymentsuccess/:paymentId' element={<PaymentSuccess />}/>
-        <Route path='/address' element={<AddAddressPage />}/>
-        <Route path='/checkout' element={<Checkout />}/>
-        <Route path='/restaurant/:id' element={<RestaurantPage />}/>
-        <Route path='/cart' element={<Cart />}/>
-        <Route path='/select-role' element={<SelectRole />}/>
-        <Route path='/account' element={<Account />}/>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/paymentsuccess/:paymentId"
+              element={<PaymentSuccess />}
+            />
+            {/* <Route path="/orders" element={<Orders />} />
+            <Route path="/order/:id" element={<OrderPage />} />
+            <Route path="/ordersuccess" element={<OrderSuccess />} /> */}
+            <Route path="/address" element={<AddAddressPage />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/restaurant/:id" element={<RestaurantPage />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/select-role" element={<SelectRole />} />
+            <Route path="/account" element={<Account />} />
       </Route>
     </Routes>
     
