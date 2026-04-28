@@ -124,7 +124,7 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   const [longitude, latitude] = address.location.coordinates;
 
-  const riderAmount = Math.ceil(distance) * 16;
+  const riderAmount = Math.ceil(distance) * 17;
 
   const order = await Order.create({
     userId: user._id.toString(),
@@ -294,7 +294,7 @@ export const updateOrderStatus = TryCatch(
       }
     );
 
-    // assign riders
+    // now assign riders
     if (status === "ready_for_rider") {
       console.log(
         "Publishing Order ready for rider event for order",
@@ -440,14 +440,14 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
 
   const { riderId } = req.query;
 
-  if (!riderId) {
-    return res.status(400).json({
-      message: "Rider id is required",
-    });
-  }
+  if (!riderId || typeof riderId !== "string") {
+  return res.status(400).json({
+    message: "Rider id is required",
+  });
+}
 
   const order = await Order.findOne({
-    // riderId, 
+    riderId,
     status: { $ne: "delivered" },
   }).populate("restaurantId");
 
