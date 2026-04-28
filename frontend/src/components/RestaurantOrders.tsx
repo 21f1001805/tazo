@@ -155,7 +155,7 @@ const RestaurantOrders = ({ restaurantId }: { restaurantId: string }) => {
           </div>
         )}
       </div>
-
+        {/* Completed orders */}
       <div className="space-y-3">
         <h3 className="text-lg font-semibold">Completed Orders</h3>
 

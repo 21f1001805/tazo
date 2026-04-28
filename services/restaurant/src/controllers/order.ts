@@ -294,7 +294,7 @@ export const updateOrderStatus = TryCatch(
       }
     );
 
-    // now assign riders
+    // assign riders
     if (status === "ready_for_rider") {
       console.log(
         "Publishing Order ready for rider event for order",

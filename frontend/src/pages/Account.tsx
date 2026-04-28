@@ -1,19 +1,21 @@
-import { useNavigate } from "react-router-dom"
-import { useAppData } from "../context/AppContext"
-import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom";
+import { useAppData } from "../context/AppContext";
+import toast from "react-hot-toast";
 import { BiLogOut, BiMapPin, BiPackage } from "react-icons/bi";
 
-
 const Account = () => {
-    const {user, setUser,setIsAuth} = useAppData()
-    const firstLetter = user?.name.charAt(0).toUpperCase()
-    const navigate = useNavigate()
-    const logoutHandler = () => {
-        localStorage.setItem("token", "");
-        setUser(null);
-        setIsAuth(false);
-        navigate("/login");
-        toast.success("logout Success");
+  const { user, setUser, setIsAuth } = useAppData();
+
+  const firstLetter = user?.name.charAt(0).toUpperCase();
+
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    localStorage.setItem("token", "");
+    setUser(null);
+    setIsAuth(false);
+    navigate("/login");
+    toast.success("logout Success");
   };
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">
