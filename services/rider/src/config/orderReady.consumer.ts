@@ -23,6 +23,7 @@ export const startOrderReadyConsumer = async () => {
         return;
       }
 
+      
       const { orderId, restaurantId, location } = event.data;
 
       console.log("Searching for rider near:", location);
