@@ -109,7 +109,7 @@ export const fetchMyProfile = TryCatch(
     res.json(account);
   }
 );
-
+ 
 export const toggleRiderAvailablity = TryCatch(
   async (req: AuthenticatedRequest, res) => {
     const user = req.user;

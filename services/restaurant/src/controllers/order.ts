@@ -379,7 +379,7 @@ export const assignRiderToOrder = TryCatch(async (req, res) => {
   }
 
   const order = await Order.findById(orderId);
-
+ 
   if (order?.riderId !== null) {
     return res.status(400).json({
       message: "Order Already taken",
@@ -444,7 +444,7 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
   return res.status(400).json({
     message: "Rider id is required",
   });
-}
+} 
 
   const order = await Order.findOne({
     riderId,

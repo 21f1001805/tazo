@@ -109,7 +109,7 @@ const RiderOrderMap = ({ order }: Props) => {
           timeout: 10000,
         }
       );
-    };
+    }; 
 
     fetchLocation();
     const interval = setInterval(fetchLocation, 10000);
