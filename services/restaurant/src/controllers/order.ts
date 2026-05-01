@@ -224,6 +224,124 @@ export const fetchRestaurantOrders = TryCatch(
   }
 );
 
+export const fetchRestaurantSales = TryCatch(
+  async (req: AuthenticatedRequest, res) => {
+    const user = req.user;
+    const { restaurantId } = req.params;
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    if (!restaurantId) {
+      return res.status(400).json({
+        message: "Restaurant id is required",
+      });
+    }
+
+    const restaurant = await Restaurant.findById(restaurantId);
+
+    if (!restaurant) {
+      return res.status(404).json({
+        message: "Restaurant not found",
+      });
+    }
+
+    if (restaurant.ownerId !== user._id.toString()) {
+      return res.status(401).json({
+        message: "You are not allowed to view this sales data",
+      });
+    }
+
+    const orders = await Order.find({
+      restaurantId,
+      paymentStatus: "paid",
+      status: { $ne: "cancelled" },
+    });
+
+    type ItemSales = {
+      itemId: string;
+      name: string;
+      quantitySold: number;
+      grossSales: number;
+      allocatedDeductions: number;
+      netSales: number;
+    };
+
+    const itemSalesMap = new Map<string, ItemSales>();
+
+    let totalGrossSales = 0;
+    let totalDeliveryFees = 0;
+    let totalPlatformFees = 0;
+    let totalNetSales = 0;
+
+    for (const order of orders) {
+      const orderDeliveryFee = order.deliveryFee || 0;
+      const orderPlatformFee = order.platfromFee || 0;
+      const orderDeductions = orderDeliveryFee + orderPlatformFee;
+
+      let orderItemsGross = 0;
+      for (const item of order.items) {
+        orderItemsGross += (item.price || 0) * (item.quauntity || 0);
+      }
+
+      totalGrossSales += orderItemsGross;
+      totalDeliveryFees += orderDeliveryFee;
+      totalPlatformFees += orderPlatformFee;
+      totalNetSales += orderItemsGross - orderDeductions;
+
+      for (const item of order.items) {
+        const itemGross = (item.price || 0) * (item.quauntity || 0);
+        const itemShare = orderItemsGross > 0 ? itemGross / orderItemsGross : 0;
+        const itemDeductionShare = orderDeductions * itemShare;
+        const itemNet = itemGross - itemDeductionShare;
+
+        const mapKey = item.itemId || item.name;
+        const existing = itemSalesMap.get(mapKey);
+
+        if (existing) {
+          existing.quantitySold += item.quauntity || 0;
+          existing.grossSales += itemGross;
+          existing.allocatedDeductions += itemDeductionShare;
+          existing.netSales += itemNet;
+        } else {
+          itemSalesMap.set(mapKey, {
+            itemId: item.itemId || "",
+            name: item.name,
+            quantitySold: item.quauntity || 0,
+            grossSales: itemGross,
+            allocatedDeductions: itemDeductionShare,
+            netSales: itemNet,
+          });
+        }
+      }
+    }
+
+    const round2 = (value: number) => Number(value.toFixed(2));
+
+    const itemSales = Array.from(itemSalesMap.values())
+      .map((item) => ({
+        ...item,
+        grossSales: round2(item.grossSales),
+        allocatedDeductions: round2(item.allocatedDeductions),
+        netSales: round2(item.netSales),
+      }))
+      .sort((a, b) => b.netSales - a.netSales);
+
+    return res.json({
+      success: true,
+      totalOrders: orders.length,
+      totalGrossSales: round2(totalGrossSales),
+      totalDeliveryFees: round2(totalDeliveryFees),
+      totalPlatformFees: round2(totalPlatformFees),
+      totalNetSales: round2(totalNetSales),
+      itemSales,
+    });
+  }
+);
+
 const ALLOWED_STATUSES = ["accepted", "preparing", "ready_for_rider"] as const;
 
 export const updateOrderStatus = TryCatch(

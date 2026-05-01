@@ -37,9 +37,12 @@ const RiderDashboard = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+  if (!audioRef.current) {
     audioRef.current = new Audio(audio);
     audioRef.current.preload = "auto";
-  }, []);
+    audioRef.current.load();
+  }
+}, []);
 
   const unlockAudio = async () => {
     try {
@@ -112,7 +115,11 @@ const RiderDashboard = () => {
       );
 
       setCurrentOrder(data.order);
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        setCurrentOrder(null);
+        return;
+      }
       console.log(error);
       setCurrentOrder(null);
     }

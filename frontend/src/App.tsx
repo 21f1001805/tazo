@@ -13,12 +13,11 @@ import Cart from "./pages/Cart";
 import AddAddressPage from "./pages/Address";
 import Checkout from "./pages/Checkout";
 import PaymentSuccess from "./pages/PaymentSuccess";
-// import OrderSuccess from "./pages/OrderSuccess";
+import OrderSuccess from "./pages/OrderSuccess";
 import Orders from "./pages/Orders";
 import OrderPage from "./pages/OrderPage";
 import RiderDashboard from "./pages/RiderDashboard";
-// import RiderDashboard from "./pages/RiderDashboard";
-// import Admin from "./pages/Admin";
+import Admin from "./pages/Admin";
 
 const App = () => {
   const { user, loading } = useAppData();
@@ -38,9 +37,9 @@ const App = () => {
     return <RiderDashboard />;
   }
 
-  // if (user && user.role === "admin") {
-  //   return <Admin />;
-  // }
+  if (user && user.role === "admin") {
+    return <Admin />;
+  }
   return (
     <>
       <BrowserRouter>
@@ -57,7 +56,7 @@ const App = () => {
             />
             <Route path="/orders" element={<Orders />} />
             <Route path="/order/:id" element={<OrderPage />} />
-            {/* <Route path="/ordersuccess" element={<OrderSuccess />} /> */}
+            <Route path="/ordersuccess" element={<OrderSuccess />} />
             <Route path="/address" element={<AddAddressPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/restaurant/:id" element={<RestaurantPage />} />

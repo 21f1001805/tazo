@@ -218,10 +218,17 @@ export const acceptOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
 
       res.json({ message: "Order accepted" });
     }
-  } catch (error) {
-    res.status(400).json({
-      message: "Order already taken",
-    });
+  } catch (error: any) {
+  console.error("Fetch current order error:", error.message);
+
+  return res.status(
+    error.response?.status || 500
+  ).json({
+    message:
+      error.response?.data?.message ||
+      error.message ||
+      "Something went wrong",
+  });
   }
 });
 
@@ -241,7 +248,7 @@ export const fetchMyCurrentOrder = TryCatch(
     });
 
     if (!rider) {
-      return res.status(404).json({ message: "rider not found" });
+      return res.json({ order: null });
     }
 
     try {
@@ -258,8 +265,17 @@ export const fetchMyCurrentOrder = TryCatch(
         order: data,
       });
     } catch (error: any) {
-      res.status(500).json({
-        message: error.response.data.message,
+      if (error.response?.status === 404) {
+        return res.json({ order: null });
+      }
+
+      console.error("Fetch current order error:", error.message);
+
+      return res.status(error.response?.status || 500).json({
+        message:
+          error.response?.data?.message ||
+          error.message ||
+          "Something went wrong",
       });
     }
   }
@@ -300,10 +316,16 @@ export const updateOrderStatus = TryCatch(
         message: data.message,
       });
     } catch (error: any) {
-      console.log(error);
-      res.status(500).json({
-        message: error.response.data.message,
-      });
+  console.error("Fetch current order error:", error.message);
+
+  return res.status(
+    error.response?.status || 500
+  ).json({
+    message:
+      error.response?.data?.message ||
+      error.message ||
+      "Something went wrong",
+  });
     }
   }
 );
