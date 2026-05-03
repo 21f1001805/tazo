@@ -7,7 +7,7 @@ import { AppProvider } from './context/AppContext.tsx'
 import 'leaflet/dist/leaflet.css'
 import { SocketProvider } from './context/SocketContext.tsx'
 
-export const authService = "https://tazo-auth-2.onrender.com";
+export const authService = "https://tazo-auth.onrender.com";
 export const restaurantService = "https://tazo-restaurant.onrender.com";
 export const utilsService = "https://tazo-utils.onrender.com";
 export const realtimeService = "https://tazo-realtime.onrender.com";
