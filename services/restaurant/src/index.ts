@@ -11,15 +11,18 @@ import addressRoutes from "./routes/address.js";
 import orderRoutes from './routes/order.js'
 import { connectRabbitMQ } from "./config/rabbitmq.js";
 import { startPaymentConsumer } from "./config/payment.consumer.js";
+import { globalApiThrottle } from "./middlewares/tokenBucket.js";
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 dotenv.config()
+app.set("trust proxy", 1);
 app.use(cors());
 await connectRabbitMQ()
 startPaymentConsumer()
 
 app.use(express.json());
+app.use("/api", globalApiThrottle);
 app.use("/api/restaurant", restaurantRoutes)
 app.use("/api/item", itemRoutes)
 app.use("/api/cart", cartRoutes)

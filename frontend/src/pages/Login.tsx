@@ -14,6 +14,11 @@ const Login = () => {
   const { setUser, setIsAuth } = useAppData();
 
   const responseGoogle = async (authResult: any) => {
+    if (!authResult?.code) {
+      toast.error("Google login failed. Please try again.");
+      return;
+    }
+
     setLoading(true);
     try {
       const result = await axios.post(`${authService}/api/auth/login`, {
@@ -26,42 +31,48 @@ const Login = () => {
       setUser(result.data.user);
       setIsAuth(true);
       navigate("/");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("Problem while login");
+      toast.error(error?.response?.data?.message || "Problem while login");
       setLoading(false);
     }
   };
 
+  const handleGoogleError = () => {
+    toast.error("Google auth popup failed or was closed.");
+  };
+
   const googleLogin = useGoogleLogin({
     onSuccess: responseGoogle,
-    onError: responseGoogle,
+    onError: handleGoogleError,
     flow: "auth-code",
   });
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-center text-3xl font-bold text-[#E23774]">
-          Tomato
-        </h1>
-
-        <p className="text-center text-sm text-gray-500">
-          Log in or sign up to continue
-        </p>
+    <div className="flex min-h-screen items-center justify-center px-4 py-10">
+      <div className="glass-card w-full max-w-md space-y-6 p-7">
+        <div>
+          <h1 className="text-center text-3xl font-extrabold tracking-tight text-[#E23744]">
+            Tazo
+          </h1>
+          <p className="muted-text mt-2 text-center text-sm">
+            Log in or sign up to continue
+          </p>
+        </div>
 
         <button
           onClick={googleLogin}
           disabled={loading}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white px-4 py-3"
+          className="btn-soft flex w-full gap-3 !py-3"
         >
           <FcGoogle size={20} />
           {loading ? "Signing in ..." : "Continue with Google"}
         </button>
 
-        <p className="text-center text-xs text-gray-400">
+        <p className="text-center text-xs text-slate-400">
           By continuing, you agree with our{" "}
-          <span className="text-[#E23774]">Terms of Service</span> &{" "}
-          <span className="text-[#E23774]">Privacy Policy</span>
+          <span className="font-semibold text-[#E23744]">Terms of Service</span>{" "}
+          &{" "}
+          <span className="font-semibold text-[#E23744]">Privacy Policy</span>
         </p>
       </div>
     </div>

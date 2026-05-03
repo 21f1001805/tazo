@@ -23,24 +23,24 @@ const AdminRestaurantCard = ({
       toast.success("Restaurant verified");
       onVerify();
     } catch (error) {
-      toast.error("failed ot verify restaurant");
+      toast.error("Failed to verify restaurant");
     }
   };
+
   return (
-    <div className="rounded-xl bg-white p-4 shadow space-y-2">
+    <div className="glass-card space-y-3 p-4">
       <img
         src={restaurant.image}
-        className="h-40 w-full object-cover rounded"
+        className="h-40 w-full rounded-xl object-cover"
         alt=""
       />
-      <h3>{restaurant.name}</h3>
-      <p className="text-sm text-gray-500">{restaurant.phone}</p>
-      <p>{restaurant.autoLocation?.formattedAddress}</p>
+      <h3 className="text-lg font-semibold">{restaurant.name}</h3>
+      <p className="text-sm text-slate-500">Phone: {restaurant.phone}</p>
+      <p className="text-sm text-slate-600">
+        {restaurant.autoLocation?.formattedAddress}
+      </p>
 
-      <button
-        className="w-full rounded bg-green-500 py-2 text-white hover:bg-green-600"
-        onClick={verify}
-      >
+      <button className="btn-primary w-full" onClick={verify}>
         Verify Restaurant
       </button>
     </div>

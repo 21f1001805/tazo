@@ -18,34 +18,34 @@ const Account = () => {
     toast.success("logout Success");
   };
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6">
-      <div className="mx-auto max-w-md rounded-lg bg-white shadow-sm">
-        <div className="flex items-center gap-4 border-b p-5">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500 text-xl font-semibold text-white">
+    <div className="min-h-screen px-4 py-6">
+      <div className="glass-card mx-auto max-w-md overflow-hidden">
+        <div className="flex items-center gap-4 border-b border-slate-100 p-5">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#E23744] to-[#c01f2f] text-xl font-semibold text-white">
             {firstLetter}
           </div>
           <div>
-            <h2 className="text-lg font-semibold">{user?.name}</h2>
-            <p className="text-sm text-gray-500">{user?.email}</p>
+            <h2 className="text-lg font-bold">{user?.name}</h2>
+            <p className="text-sm text-slate-500">{user?.email}</p>
           </div>
         </div>
         <div className="divide-y">
           <div
-            className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50"
+            className="flex cursor-pointer items-center gap-4 p-5 transition hover:bg-white/80"
             onClick={() => navigate("/orders")}
           >
             <BiPackage className="h-5 w-5 text-red-500" />
             <span className="font-medium">Your Orders</span>
           </div>
           <div
-            className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50"
+            className="flex cursor-pointer items-center gap-4 p-5 transition hover:bg-white/80"
             onClick={() => navigate("/address")}
           >
             <BiMapPin className="h-5 w-5 text-red-500" />
             <span className="font-medium">Addresses</span>
           </div>
           <div
-            className="flex cursor-pointer items-center gap-4 p-5 hover:bg-gray-50"
+            className="flex cursor-pointer items-center gap-4 p-5 transition hover:bg-white/80"
             onClick={logoutHandler}
           >
             <BiLogOut className="h-5 w-5 text-red-500" />

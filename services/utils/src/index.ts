@@ -5,8 +5,10 @@ import cors from 'cors'
 import uploadRoutes from './routes/cloudinary.js'
 import paymentRoutes from './routes/payment.js'
 import { connectRabbitMQ } from "./config/rabbitmq.js";
+import { globalApiThrottle } from "./middlewares/tokenBucket.js";
 
 const app = express();
+app.set("trust proxy", 1);
 connectRabbitMQ();
 
 app.use(express.json())
@@ -14,6 +16,7 @@ dotenv.config()
 app.use(cors())
 app.use(express.json({limit:"50mb"}));
 app.use(express.urlencoded({limit:"50mb", extended:true}))
+app.use("/api", globalApiThrottle);
 
 
 const {CLOUD_NAME, CLOUD_API_KEY, CLOUD_SECRET_KEY}= process.env;

@@ -4,13 +4,16 @@ import cors from "cors";
 import http from "http";
 import { initSocket } from "./socket.js";
 import internalRoute from "./routes/internal.js";
+import { globalApiThrottle } from "./middlewares/tokenBucket.js";
 
 dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.use(cors());
 app.use(express.json());
+app.use("/api", globalApiThrottle);
 
 app.use("/api/v1/internal", internalRoute);
 

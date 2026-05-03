@@ -10,6 +10,7 @@ import audio from "../assets/faaah.mp3";
 import RiderOrderRequest from "../components/RiderOrderRequest";
 import RiderCurrentOrder from "../components/RiderCurrentOrder";
 import RiderOrderMap from "../components/RiderOrderMap";
+import { getCurrentRiderOrder } from "../services/riderApi";
 
 interface IRider {
   _id: string;
@@ -22,7 +23,7 @@ interface IRider {
 }
 
 const RiderDashboard = () => {
-  const { user } = useAppData();
+  const { user, setUser, setIsAuth } = useAppData();
   const { socket } = useSocket();
 
   const [profile, setProfile] = useState<IRider | null>(null);
@@ -105,21 +106,12 @@ const RiderDashboard = () => {
 
   const fetchCurrentOrder = async () => {
     try {
-      const { data } = await axios.get(
-        `${riderService}/api/rider/order/current`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+      const order = await getCurrentRiderOrder(
+        riderService,
+        localStorage.getItem("token")
       );
-
-      setCurrentOrder(data.order);
-    } catch (error: any) {
-      if (error?.response?.status === 404) {
-        setCurrentOrder(null);
-        return;
-      }
+      setCurrentOrder(order);
+    } catch (error) {
       console.log(error);
       setCurrentOrder(null);
     }
@@ -211,6 +203,14 @@ const RiderDashboard = () => {
         setSubmitting(false);
       }
     });
+  };
+
+  const logoutHandler = () => {
+    localStorage.setItem("token", "");
+    setIsAuth(false);
+    setUser(null);
+    toast.success("Logged out successfully");
+    window.location.href = "/login";
   };
 
   if (user?.role !== "rider") {
@@ -328,6 +328,13 @@ const RiderDashboard = () => {
                 : "Go Online"}
             </button>
           )}
+
+          <button
+            onClick={logoutHandler}
+            className="btn-soft w-full !py-2"
+          >
+            Logout
+          </button>
         </div>
       </div>
 

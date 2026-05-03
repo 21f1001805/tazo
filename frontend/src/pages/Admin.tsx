@@ -3,12 +3,23 @@ import { useEffect, useState } from "react";
 import { adminService } from "../main";
 import AdminRestaurantCard from "../components/AdminRestaurantCard";
 import RiderAdmin from "../components/RiderAdmin";
+import { useAppData } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Admin = () => {
+  const { setUser, setIsAuth } = useAppData();
   const [restaurant, setRestaurant] = useState<any[]>([]);
   const [riders, setRiders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<"restaurant" | "rider">("restaurant");
+
+  const logoutHandler = () => {
+    localStorage.setItem("token", "");
+    setIsAuth(false);
+    setUser(null);
+    toast.success("Logged out successfully");
+    window.location.href = "/login";
+  };
 
   const fetchData = async () => {
     try {
@@ -46,19 +57,26 @@ const Admin = () => {
   if (loading) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-gray-500">Loading admin panel...</p>
+        <p className="muted-text">Loading admin panel...</p>
       </div>
     );
   }
   return (
-    <div className="mx-auto max-w-6xl px-6 py-6 space-y-6">
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+    <div className="page-shell max-w-6xl space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="section-title">Admin Dashboard</h1>
+        <button onClick={logoutHandler} className="btn-soft !py-2">
+          Logout
+        </button>
+      </div>
 
       <div className="flex gap-4">
         <button
           onClick={() => setTab("restaurant")}
-          className={`px-4 py-2 rounded ${
-            tab === "restaurant" ? "bg-red-500 text-white" : "bg-gray-200"
+          className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+            tab === "restaurant"
+              ? "bg-[#E23744] text-white"
+              : "bg-white text-slate-600"
           }`}
         >
           Restaurant
@@ -66,8 +84,8 @@ const Admin = () => {
 
         <button
           onClick={() => setTab("rider")}
-          className={`px-4 py-2 rounded ${
-            tab === "rider" ? "bg-red-500 text-white" : "bg-gray-200"
+          className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+            tab === "rider" ? "bg-[#E23744] text-white" : "bg-white text-slate-600"
           }`}
         >
           Riders
@@ -95,7 +113,7 @@ const Admin = () => {
             <p>No pending riders</p>
           ) : (
             riders.map((r) => (
-              <RiderAdmin key={r._id} rider={r} onVerify={fetchData} />
+               <RiderAdmin key={r._id} rider={r} onVerify={fetchData} />
             ))
           )}
         </div>

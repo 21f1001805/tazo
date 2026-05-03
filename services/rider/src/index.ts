@@ -5,6 +5,7 @@ import cors from "cors";
 import riderRoutes from "./routes/rider.js";
 import { connectRabbitMQ } from "./config/rabbitmq.js";
 import { startOrderReadyConsumer } from "./config/orderReady.consumer.js";
+import { globalApiThrottle } from "./middlewares/tokenBucket.js";
 
 dotenv.config();
 
@@ -12,8 +13,10 @@ await connectRabbitMQ();
 startOrderReadyConsumer();
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cors());
+app.use("/api", globalApiThrottle);
 
 app.use("/api/rider", riderRoutes);
 

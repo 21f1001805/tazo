@@ -19,7 +19,7 @@ const Cart = () => {
   if (!cart || cart.length === 0) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-gray-500 text-lg">Your cart is empty</p>
+        <p className="muted-text text-lg">Your cart is empty</p>
       </div>
     );
   }
@@ -27,9 +27,7 @@ const Cart = () => {
   const restaurant = cart[0].restaurantId as IRestaurant;
 
   const deliveryFee = subTotal < 250 ? 49 : 0;
-
   const platfromFee = 7;
-
   const grandTotal = subTotal + deliveryFee + platfromFee;
 
   const increaseQty = async (itemId: string) => {
@@ -47,7 +45,7 @@ const Cart = () => {
 
       await fetchCart();
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setLoadingItemId(null);
     }
@@ -68,14 +66,14 @@ const Cart = () => {
 
       await fetchCart();
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setLoadingItemId(null);
     }
   };
 
   const clearCart = async () => {
-    const confirm = window.confirm("Are you sure you want to clear you cart?");
+    const confirm = window.confirm("Are you sure you want to clear your cart?");
     if (!confirm) return;
     try {
       setClearingCart(true);
@@ -87,7 +85,7 @@ const Cart = () => {
 
       await fetchCart();
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setClearingCart(false);
     }
@@ -96,11 +94,12 @@ const Cart = () => {
   const checkout = () => {
     navigate("/checkout");
   };
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-6 space-y-6">
-      <div className="rounded-xl bg-white p-4 shadow-sm">
-        <h2 className="text-xl font-semibold">{restaurant.name}</h2>
-        <p className="text-sm text-gray-500">
+    <div className="page-shell max-w-5xl space-y-6">
+      <div className="glass-card p-4">
+        <h2 className="text-xl font-bold">{restaurant.name}</h2>
+        <p className="text-sm text-slate-500">
           {restaurant.autoLocation.formattedAddress}
         </p>
       </div>
@@ -111,24 +110,21 @@ const Cart = () => {
           const isLoading = loadingItemId === item._id;
 
           return (
-            <div
-              key={item._id}
-              className="flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm"
-            >
+            <div key={item._id} className="glass-card flex items-center gap-4 p-4">
               <img
                 src={item.image}
                 alt=""
-                className="h-20 w-20 rounded object-cover"
+                className="h-20 w-20 rounded-xl object-cover"
               />
 
               <div className="flex-1">
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-500">₹{item.price}</p>
+                <p className="text-sm text-slate-500">Rs {item.price}</p>
               </div>
 
               <div className="flex items-center gap-3">
                 <button
-                  className="rounded-full border p-2 hover:bg-gray-100 disabled:opacity-50"
+                  className="rounded-full border border-slate-200 p-2 transition hover:bg-slate-100 disabled:opacity-50"
                   disabled={isLoading}
                   onClick={() => decreaseQty(item._id)}
                 >
@@ -140,7 +136,7 @@ const Cart = () => {
                 </button>
                 <span className="font-medium">{cartItem.quauntity}</span>
                 <button
-                  className="rounded-full border p-2 hover:bg-gray-100 disabled:opacity-50"
+                  className="rounded-full border border-slate-200 p-2 transition hover:bg-slate-100 disabled:opacity-50"
                   disabled={isLoading}
                   onClick={() => increaseQty(item._id)}
                 >
@@ -152,15 +148,15 @@ const Cart = () => {
                 </button>
               </div>
 
-              <p className="w-20 text-right font-medium">
-                ₹{item.price * cartItem.quauntity}
+              <p className="w-24 text-right font-semibold text-slate-700">
+                Rs {item.price * cartItem.quauntity}
               </p>
             </div>
           );
         })}
       </div>
 
-      <div className="rounded-xl bg-white p-4 shadow-sm space-y-3">
+      <div className="glass-card space-y-3 p-4">
         <div className="flex justify-between text-sm">
           <span>Total Items</span>
           <span>{quauntity}</span>
@@ -168,32 +164,32 @@ const Cart = () => {
 
         <div className="flex justify-between text-sm">
           <span>Subtotal</span>
-          <span>₹{subTotal}</span>
+          <span>Rs {subTotal}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span>Delivery Fee</span>
-          <span>{deliveryFee === 0 ? "Free" : `₹${deliveryFee}`}</span>
+          <span>{deliveryFee === 0 ? "Free" : `Rs ${deliveryFee}`}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span>PlatFrom fee</span>
-          <span>₹{platfromFee}</span>
+          <span>Platform Fee</span>
+          <span>Rs {platfromFee}</span>
         </div>
 
         {subTotal < 250 && (
-          <p className="text-xs text-gray-500">
-            Add Item worth ₹{250 - subTotal} more to get Free delivery
+          <p className="text-xs text-slate-500">
+            Add items worth Rs {250 - subTotal} more to get free delivery
           </p>
         )}
 
-        <div className="flex justify-between text-base font-semibold border-t pt-2">
+        <div className="flex justify-between border-t border-slate-100 pt-2 text-base font-semibold">
           <span>Grand Total</span>
-          <span>₹{grandTotal}</span>
+          <span>Rs {grandTotal}</span>
         </div>
 
         <button
           onClick={checkout}
-          className={`mt-3 w-full rounded-lg bg-[#E23744] py-3 text-sm font-semibold text-white hover:bg-red-800 ${
-            !restaurant.isOpen ? "opacity-50 cursor-not-allowed" : ""
+          className={`btn-primary mt-3 w-full !py-3 ${
+            !restaurant.isOpen ? "cursor-not-allowed opacity-50" : ""
           }`}
           disabled={!restaurant.isOpen}
         >
@@ -202,7 +198,7 @@ const Cart = () => {
 
         <button
           onClick={clearCart}
-          className="mt-3 w-full rounded-lg bg-[#232222] py-3 text-sm font-semibold text-white hover:bg-gray-900 flex justify-center items-center gap-3"
+          className="btn-soft mt-3 flex w-full items-center justify-center gap-3 !py-3"
           disabled={clearingCart}
         >
           Clear Cart <TbTrash size={16} />

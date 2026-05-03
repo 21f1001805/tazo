@@ -59,7 +59,7 @@ const RestaurantPage = () => {
   if (loading) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-gray-500">Loading restaurant...</p>
+        <p className="muted-text">Loading restaurant...</p>
       </div>
     );
   }
@@ -67,19 +67,19 @@ const RestaurantPage = () => {
   if (!restaurant) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-gray-500">No Restaurant with this id</p>
+        <p className="muted-text">No restaurant found with this id</p>
       </div>
     );
   }
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
+    <div className="min-h-screen px-4 py-6 space-y-6">
       <RestaurantProfile
         restaurant={restaurant}
         onUpdate={setRestaurant}
         isSeller={false}
       />
 
-      <div className="rounded-xl bg-white shadow-sm p-4">
+      <div className="glass-card p-4">
         <MenuItems
           isSeller={false}
           items={menuItems}

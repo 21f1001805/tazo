@@ -22,14 +22,11 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get(
-        `${restaurantService}/api/order/myorder`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${restaurantService}/api/order/myorder`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       setOrders(data.orders || []);
     } catch (error) {
@@ -60,13 +57,13 @@ const Orders = () => {
   }, [socket]);
 
   if (loading) {
-    return <p className="text-center text-gray-500">Loading orders...</p>;
+    return <p className="muted-text text-center">Loading orders...</p>;
   }
 
   if (orders.length === 0) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-gray-500">No orders yet</p>
+        <p className="muted-text">No orders yet</p>
       </div>
     );
   }
@@ -75,15 +72,16 @@ const Orders = () => {
   const completedOrders = orders.filter(
     (o) => !ACTIVE_STATUSES.includes(o.status)
   );
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6 space-y-6">
-      <h1 className="text-2xl font-bold">My Orders</h1>
+    <div className="page-shell max-w-4xl space-y-6">
+      <h1 className="section-title">My Orders</h1>
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Active Orders</h2>
 
         {activeOrders.length === 0 ? (
-          <p>No active orders</p>
+          <p className="muted-text">No active orders</p>
         ) : (
           activeOrders.map((order) => (
             <OrderRow
@@ -99,7 +97,7 @@ const Orders = () => {
         <h2 className="text-lg font-semibold">Completed Orders</h2>
 
         {completedOrders.length === 0 ? (
-          <p>No Completed orders</p>
+          <p className="muted-text">No completed orders</p>
         ) : (
           completedOrders.map((order) => (
             <OrderRow
@@ -116,7 +114,6 @@ const Orders = () => {
 
 export default Orders;
 
-// component Order row
 const OrderRow = ({
   order,
   onClick,
@@ -126,15 +123,17 @@ const OrderRow = ({
 }) => {
   return (
     <div
-      className="cursor-pointer rounded-xl bg-white p-4 shadow-sm hover:bg-gray-50"
+      className="glass-card cursor-pointer p-4 transition hover:-translate-y-0.5"
       onClick={onClick}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <p className="text-sm font-medium">Order #{order._id.slice(-6)}</p>
-        <span className="text-xs capitalize text-gray-500">{order.status}</span>
+        <span className="chip bg-slate-100 capitalize text-slate-600">
+          {order.status}
+        </span>
       </div>
 
-      <div className="mt-2 text-sm text-gray-600">
+      <div className="mt-2 text-sm text-slate-600">
         {order.items.map((item, i) => (
           <span key={i}>
             {item.name} x {item.quauntity}
@@ -145,7 +144,7 @@ const OrderRow = ({
 
       <div className="mt-2 flex justify-between text-sm font-medium">
         <span>Total</span>
-        <span>₹{order.totalAmount}</span>
+        <span>Rs {order.totalAmount}</span>
       </div>
     </div>
   );

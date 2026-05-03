@@ -7,7 +7,6 @@ import type { ICart, IMenuItem, IRestaurant } from "../types";
 import toast from "react-hot-toast";
 import { BiCreditCard, BiLoader } from "react-icons/bi";
 
-
 interface Address {
   _id: string;
   formattedAddress: string;
@@ -18,13 +17,8 @@ const Checkout = () => {
   const { cart, subTotal, quauntity } = useAppData();
 
   const [addresses, setAddresses] = useState<Address[]>([]);
-
-  const [selectedAddressId, setselectedAddressId] = useState<string | null>(
-    null
-  );
-
+  const [selectedAddressId, setselectedAddressId] = useState<string | null>(null);
   const [loadingAddress, setLoadingAddress] = useState(true);
-
   const [loadingRazorpay, setLoadingRazorpay] = useState(false);
   const [creatingOrder, setCreatingOrder] = useState(false);
 
@@ -36,14 +30,11 @@ const Checkout = () => {
       }
 
       try {
-        const { data } = await axios.get(
-          `${restaurantService}/api/address/all`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const { data } = await axios.get(`${restaurantService}/api/address/all`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         setAddresses(data || []);
       } catch (error) {
@@ -61,20 +52,17 @@ const Checkout = () => {
   if (!cart || cart.length === 0) {
     return (
       <div className="flex min-h-[60vh] item-center justify-center">
-        <p className="text-gray-500 text-lg">Your cart is empty</p>
+        <p className="muted-text text-lg">Your cart is empty</p>
       </div>
     );
   }
 
   const restaurant = cart[0].restaurantId as IRestaurant;
-
   const deliveryFee = subTotal < 250 ? 49 : 0;
-
   const platformFee = 7;
-
   const grandTotal = subTotal + deliveryFee + platformFee;
 
-  const createOrder = async (paymentMethod: "razorpay" ) => {
+  const createOrder = async (paymentMethod: "razorpay") => {
     if (!selectedAddressId) return null;
 
     setCreatingOrder(true);
@@ -94,7 +82,7 @@ const Checkout = () => {
 
       return data;
     } catch (error) {
-      toast.error("Failed to create Order");
+      toast.error("Failed to create order");
     } finally {
       setCreatingOrder(false);
     }
@@ -119,7 +107,7 @@ const Checkout = () => {
         key,
         amount: amount * 100,
         currency: "INR",
-        name: "Tazo", 
+        name: "Tazo",
         description: "Food Order Payment",
         order_id: razorpayOrderId,
 
@@ -132,7 +120,7 @@ const Checkout = () => {
               orderId,
             });
 
-            toast.success("Payment successfull 🎉");
+            toast.success("Payment successful");
             navigate("/paymentsuccess/" + response.razorpay_payment_id);
           } catch (error) {
             toast.error("Payment verification failed");
@@ -147,41 +135,38 @@ const Checkout = () => {
       razorpay.open();
     } catch (error) {
       console.log(error);
-      toast.error("Payment Failed please refresh page");
+      toast.error("Payment failed, please refresh page");
     } finally {
       setLoadingRazorpay(false);
     }
   };
 
-
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6 space-y-6">
-      <h1 className="text-2xl font-bold">Checkout</h1>
+    <div className="page-shell max-w-4xl space-y-6">
+      <h1 className="section-title">Checkout</h1>
 
-      <div className="rounded-xl bg-white p-4 shadow-sm">
+      <div className="glass-card p-4">
         <h2 className="text-lg font-semibold">{restaurant.name}</h2>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-slate-500">
           {restaurant.autoLocation.formattedAddress}
         </p>
       </div>
 
-      <div className="rounded-xl bg-white p-4 shadow-sm space-y-3">
+      <div className="glass-card space-y-3 p-4">
         <h3 className="font-semibold">Delivery Address</h3>
 
         {loadingAddress ? (
-          <p className="text-sm text-gray-500">Loading addresses...</p>
+          <p className="text-sm text-slate-500">Loading addresses...</p>
         ) : addresses.length === 0 ? (
-          <p className="text-sm text-gray-500">
-            No address found. Please add one
-          </p>
+          <p className="text-sm text-slate-500">No address found. Please add one</p>
         ) : (
           addresses.map((add) => (
             <label
               key={add._id}
-              className={`flex gap-3 rounded-lg border p-3 cursor-pointer transition ${
+              className={`flex cursor-pointer gap-3 rounded-xl border p-3 transition ${
                 selectedAddressId === add._id
-                  ? "border-[#e23744] bg-red-50"
-                  : "hover:bg-gray-50"
+                  ? "border-red-300 bg-red-50"
+                  : "border-slate-200 hover:bg-slate-50"
               }`}
             >
               <input
@@ -191,14 +176,14 @@ const Checkout = () => {
               />
               <div>
                 <p className="text-sm font-medium">{add.formattedAddress}</p>
-                <p className="text-xs text-gray-500">{add.mobile}</p>
+                <p className="text-xs text-slate-500">{add.mobile}</p>
               </div>
             </label>
           ))
         )}
       </div>
 
-      <div className="rounded-xl bg-white p-4 shadow-sm space-y-4">
+      <div className="glass-card space-y-4 p-4">
         <h3 className="font-semibold">Order Summary</h3>
 
         {cart.map((cartItem: ICart) => {
@@ -209,55 +194,53 @@ const Checkout = () => {
               <span>
                 {item.name} x {cartItem.quauntity}
               </span>
-              <span>₹{item.price * cartItem.quauntity}</span>
+              <span>Rs {item.price * cartItem.quauntity}</span>
             </div>
           );
         })}
 
-        <hr />
+        <hr className="border-slate-100" />
 
         <div className="flex justify-between text-sm">
           <span>Items ({quauntity})</span>
-          <span>₹{subTotal}</span>
+          <span>Rs {subTotal}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span>Delivery Fee</span>
-          <span>{deliveryFee === 0 ? "Free" : `₹${deliveryFee}`}</span>
+          <span>{deliveryFee === 0 ? "Free" : `Rs ${deliveryFee}`}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span>PlatForm Fee</span>
-          <span>₹{platformFee}</span>
+          <span>Platform Fee</span>
+          <span>Rs {platformFee}</span>
         </div>
 
         {subTotal < 250 && (
-          <p className="text-xs text-gray-500">
-            Add Item worth ₹{250 - subTotal} more to get Free delivery
+          <p className="text-xs text-slate-500">
+            Add items worth Rs {250 - subTotal} more to get free delivery
           </p>
         )}
 
-        <div className="flex justify-between text-base font-semibold border-t pt-2">
+        <div className="flex justify-between border-t border-slate-100 pt-2 text-base font-semibold">
           <span>Grand Total</span>
-          <span>₹{grandTotal}</span>
+          <span>Rs {grandTotal}</span>
         </div>
       </div>
 
-      <div className="rounded-xl bg-white p-4 shadow-sm space-y-3">
+      <div className="glass-card space-y-3 p-4">
         <h3 className="font-semibold">Payment Method</h3>
 
         <button
           disabled={!selectedAddressId || loadingRazorpay || creatingOrder}
           onClick={payWithRazorpay}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#2D7FF9] py-3 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-50"
+          className="btn-primary flex w-full items-center justify-center gap-2 !py-3 disabled:opacity-50"
         >
           {loadingRazorpay ? (
             <BiLoader size={18} className="animate-spin" />
           ) : (
             <BiCreditCard size={18} />
           )}
-          Pay With Razorpay
+          Pay with Razorpay
         </button>
-
-        
       </div>
     </div>
   );

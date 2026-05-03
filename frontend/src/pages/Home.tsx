@@ -74,12 +74,22 @@ const Home = () => {
   if (loading || !location) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-gray-500">Finding restaurants near you...</p>
+        <p className="muted-text">Finding restaurants near you...</p>
       </div>
     );
   }
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6">
+    <div className="page-shell space-y-5">
+      <div className="glass-card overflow-hidden p-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-red-500">
+          Curated Nearby
+        </p>
+        <h1 className="section-title mt-2">Discover Great Food Around You</h1>
+        <p className="muted-text mt-1 text-sm">
+          Freshly prepared meals from nearby restaurants, delivered fast.
+        </p>
+      </div>
+
       {restaurants.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {restaurants.map((res) => {
@@ -105,7 +115,7 @@ const Home = () => {
           })}
         </div>
       ) : (
-        <p className="text-center text-gray-500">No restaurant found</p>
+        <p className="muted-text py-12 text-center">No restaurant found</p>
       )}
     </div>
   );

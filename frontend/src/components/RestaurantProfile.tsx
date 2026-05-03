@@ -81,7 +81,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
     toast.success("loggedOut successfully");
   };
   return (
-    <div className="mx-auto max-w-xl rounded-xl bg-white shadow-sm overflow-hidden">
+    <div className="glass-card mx-auto max-w-xl overflow-hidden">
       {restaurant.image && (
         <img
           src={restaurant.image}
@@ -89,20 +89,20 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
           className="h-48 w-full object-cover"
         />
       )}
-      <div className="p-5 space-y-4">
+      <div className="space-y-4 p-5">
         <div className="flex items-start justify-between">
           <div>
             {editMode ? (
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded border px-2 py-1 text-lg font-semibold"
+                className="input-modern w-full text-lg font-semibold"
               />
             ) : (
-              <h2 className="text-xl font-semibold">{restaurant.name}</h2>
+              <h2 className="text-xl font-bold">{restaurant.name}</h2>
             )}
 
-            <div className="mt-1 flex items-center gap-2 text-sm text-gray-500">
+            <div className="mt-1 flex items-center gap-2 text-sm text-slate-500">
               <BiMapPin className="h-4 w-4 text-red-500" />
               {restaurant.autoLocation.formattedAddress ||
                 "Location unavalable"}
@@ -112,7 +112,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
           {isSeller && (
             <button
               onClick={() => setEditMode(!editMode)}
-              className="text-gray-500 hover:text-black"
+              className="rounded-lg p-2 text-gray-500 transition hover:bg-slate-100 hover:text-black"
             >
               <BiEdit size={18} />
             </button>
@@ -123,15 +123,15 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded border px-3 py-2 text-sm"
+            className="input-modern w-full"
           />
         ) : (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-slate-600">
             {restaurant.description || "No description added"}
           </p>
         )}
 
-        <div className="flex items-center justify-between pt-3 border-t">
+        <div className="flex items-center justify-between border-t border-slate-100 pt-3">
           <span
             className={`text-sm font-medium ${
               isOpen ? "text-green-600" : "text-red-500"
@@ -145,7 +145,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
               <button
                 onClick={saveChanges}
                 disabled={loading}
-                className="flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700"
+                className="btn-soft flex items-center gap-1 !px-3 !py-1.5 text-sm"
               >
                 <BiSave size={16} />
                 Save
@@ -157,8 +157,8 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
                 onClick={toggleOpenStatus}
                 className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white ${
                   isOpen
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-green-600 hover:bg-green-700"
+                  ? "bg-red-600 hover:bg-red-700"
+                  : "bg-green-600 hover:bg-green-700"
                 }`}
               >
                 {isOpen ? "Close Restaurant" : "Open Restaurant"}
@@ -168,8 +168,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
             {isSeller && (
               <button
                 onClick={logoutHandler}
-                className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white bg-red-600 hover:bg-red-700
-                `}
+                className="rounded-lg bg-red-600 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-red-700"
               >
                 Logout
               </button>

@@ -24,9 +24,11 @@ const App = () => {
 
   if (loading) {
     return (
-      <h1 className="text-2xl font-bold text-red-500 text-center mt-56">
-        Loading...
-      </h1>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="glass-card px-8 py-6">
+          <h1 className="text-2xl font-bold text-red-500">Loading...</h1>
+        </div>
+      </div>
     );
   }
 
@@ -41,7 +43,7 @@ const App = () => {
     return <Admin />;
   }
   return (
-    <>
+    <div className="min-h-screen">
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -66,7 +68,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 };
 

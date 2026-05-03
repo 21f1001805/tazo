@@ -278,7 +278,8 @@ export const fetchRestaurantSales = TryCatch(
     let totalNetSales = 0;
 
     for (const order of orders) {
-      const orderDeliveryFee = order.deliveryFee || 0;
+      const isFreeDeliveryOrder = (order.deliveryFee || 0) === 0;
+      const orderDeliveryFee = isFreeDeliveryOrder ? order.riderAmount || 0 : 0;
       const orderPlatformFee = order.platfromFee || 0;
       const orderDeductions = orderDeliveryFee + orderPlatformFee;
 

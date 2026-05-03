@@ -80,7 +80,7 @@ const Restaurant = () => {
     return <AddRestaurant fetchMyRestaurant={fetchMyRestaurant} />;
   }
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-6">
+    <div className="min-h-screen px-4 py-6 space-y-6">
       <RestaurantProfile
         restaurant={restaurant}
         onUpdate={setRestaurant}
@@ -89,8 +89,8 @@ const Restaurant = () => {
 
       <RestaurantOrders restaurantId={restaurant._id} />
 
-      <div className="rounded-xl bg-white shadow-sm">
-        <div className="flex border-b">
+      <div className="glass-card">
+        <div className="flex border-b border-slate-100">
           {[
             { key: "menu", label: "Menu Items" },
             { key: "add-item", label: "Add Item" },

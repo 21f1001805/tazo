@@ -20,28 +20,27 @@ const RiderAdmin = ({
           },
         }
       );
-      toast.success("Restaurant verified");
+      toast.success("Rider verified");
       onVerify();
     } catch (error) {
-      toast.error("failed ot verify restaurant");
+      toast.error("Failed to verify rider");
     }
   };
+
   return (
-    <div className="rounded-xl bg-white p-4 shadow space-y-2">
+    <div className="glass-card space-y-3 p-4">
       <img
         src={rider.picture}
-        className="h-40 w-full object-cover rounded"
+        className="h-40 w-full rounded-xl object-cover"
         alt=""
       />
-      <h3>{rider.phoneNumber}</h3>
-      <p className="text-sm text-gray-500">aadhar{rider.phone}</p>
-      <p>{rider.aadharNumber}</p>
-      <p>Dl Number:{rider.drivingLicenseNumber}</p>
+      <h3 className="text-lg font-semibold">{rider.phoneNumber}</h3>
+      <p className="text-sm text-slate-500">Aadhaar: {rider.aadharNumber}</p>
+      <p className="text-sm text-slate-600">
+        DL Number: {rider.drivingLicenseNumber}
+      </p>
 
-      <button
-        className="w-full rounded bg-green-500 py-2 text-white hover:bg-green-600"
-        onClick={verify}
-      >
+      <button className="btn-primary w-full" onClick={verify}>
         Verify Rider
       </button>
     </div>

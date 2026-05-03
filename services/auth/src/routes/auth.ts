@@ -1,10 +1,11 @@
 import  express  from "express";
 import { addUserRole, loginUser, myProfile } from "../controllers/auth.js";
 import { isAuth } from "../middleware/isAuth.js";
+import { loginRateLimiter } from "../middleware/tokenBucket.js";
 
 const router = express.Router();
 
-router.post("/login", loginUser);
+router.post("/login", loginRateLimiter, loginUser);
 router.put("/add/role", isAuth, addUserRole)
 router.get("/me", isAuth,myProfile)
 
