@@ -3,6 +3,10 @@
 Tazo is a full-stack food delivery platform built with a microservice-style backend and a React frontend.
 It supports customer ordering, restaurant operations, rider assignment, real-time updates, payment flow, and admin verification.
 
+## Live Deployment
+
+- Frontend (Vercel): https://tazo-theta.vercel.app/
+
 ## Key Features
 
 - Google OAuth login and role-based access (`customer`, `seller`, `rider`, `admin`).
@@ -27,6 +31,9 @@ It supports customer ordering, restaurant operations, rider assignment, real-tim
   - delivery/platform fee deductions
   - net sales
   - per-item sales breakdown
+- Traffic protection with token-bucket controls:
+  - global API throttling across services
+  - stricter login rate limiting on auth login endpoint
 
 ## Architecture
 
@@ -39,7 +46,7 @@ flowchart LR
   UTILS[Utils Service :5002]
   RT[Realtime Service :5004]
   RIDER[Rider Service :5005]
-  ADMIN[Admin Service :5006]
+  ADMIN[Admin Service :5003]
 
   MONGO[(MongoDB)]
   RABBIT[(RabbitMQ)]
@@ -94,7 +101,24 @@ flowchart LR
 - Utils: `5002`
 - Realtime: `5004`
 - Rider: `5005`
-- Admin: `5006`
+- Admin: `5003`
+
+## API Protection (Throttling and Rate Limiting)
+
+Tazo uses token-bucket middleware for request control:
+
+- Global API throttling on services (`auth`, `restaurant`, `utils`, `realtime`, `rider`, `admin`):
+  - capacity: `120`
+  - refill: `120` tokens per `60s`
+  - mode: `throttle` (short wait before rejecting)
+  - max wait: `1500ms`
+
+- Login rate limiting on `POST /api/auth/login` only:
+  - capacity: `10`
+  - refill: `10` tokens per `10 minutes`
+  - mode: `limit` (returns `429` immediately when exceeded)
+
+This helps reduce abuse/spikes while keeping normal traffic responsive.
 
 ## Tech Stack
 
@@ -102,7 +126,7 @@ flowchart LR
 - Backend: Node.js, Express, TypeScript, Socket.IO.
 - Data/Infra: MongoDB, RabbitMQ, Cloudinary, Razorpay.
 
-## Prerequisites
+## System requirements
 
 - Node.js 18+ and npm
 - MongoDB running locally or remotely
@@ -206,7 +230,7 @@ ORDER_READY_QUEUE=ORDER_READY_QUEUE
 #### `services/admin/.env`
 
 ```env
-PORT=5006
+PORT=5003
 MONGO_URI=<mongo-connection-string>
 DB_NAME=<admin-db-name>
 JWT_SEC=<jwt-secret>
