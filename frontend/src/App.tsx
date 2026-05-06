@@ -51,6 +51,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
           </Route>
           <Route element={<ProtectedRoute />}>
+          
             <Route path="/" element={<Home />} />
             <Route
               path="/paymentsuccess/:paymentId"

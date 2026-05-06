@@ -62,7 +62,7 @@ const Login = () => {
         <button
           onClick={googleLogin}
           disabled={loading}
-          className="btn-soft flex w-full gap-3 !py-3"
+          className="btn-soft flex w-full gap-3 py-3"
         >
           <FcGoogle size={20} />
           {loading ? "Signing in ..." : "Continue with Google"}

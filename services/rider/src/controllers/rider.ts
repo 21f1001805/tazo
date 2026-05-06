@@ -235,6 +235,9 @@ export const acceptOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
 export const fetchMyCurrentOrder = TryCatch(
   async (req: AuthenticatedRequest, res) => {
     const riderUserId = req.user?._id;
+    const statusQuery =
+      typeof req.query.status === "string" ? req.query.status : "current";
+    const normalizedStatus = statusQuery.toLowerCase();
 
     if (!riderUserId) {
       return res.status(400).json({
@@ -248,24 +251,32 @@ export const fetchMyCurrentOrder = TryCatch(
     });
 
     if (!rider) {
-      return res.json({ order: null });
+      if (normalizedStatus === "current") {
+        return res.json({ order: null });
+      }
+      return res.json({ orders: [] });
     }
 
     try {
       const { data } = await axios.get(
-        `${process.env.RESTAURANT_SERVICE}/api/order/current/rider?riderId=${rider._id}`,
+        `${process.env.RESTAURANT_SERVICE}/api/order/current/rider?riderId=${rider._id}&status=${normalizedStatus}`,
         {
           headers: {
             "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
           },
         }
       );
+      if (normalizedStatus === "current") {
+        return res.json({
+          order: data,
+        });
+      }
 
-      res.json({
-        order: data,
+      return res.json({
+        orders: Array.isArray(data?.orders) ? data.orders : [],
       });
     } catch (error: any) {
-      if (error.response?.status === 404) {
+      if (error.response?.status === 404 && normalizedStatus === "current") {
         return res.json({ order: null });
       }
 

@@ -108,7 +108,8 @@ const RiderDashboard = () => {
     try {
       const order = await getCurrentRiderOrder(
         riderService,
-        localStorage.getItem("token")
+        localStorage.getItem("token"),
+        "current"
       );
       setCurrentOrder(order);
     } catch (error) {

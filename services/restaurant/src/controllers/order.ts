@@ -207,18 +207,39 @@ export const fetchRestaurantOrders = TryCatch(
       });
     }
 
-    const limit = req.query.limit ? Number(req.query.limit) : 0;
+    const pageQuery = Number(req.query.page);
+    const limitQuery = Number(req.query.limit);
 
-    const orders = await Order.find({
+    const page = Number.isFinite(pageQuery) && pageQuery > 0 ? Math.floor(pageQuery) : 1;
+    const limit =
+      Number.isFinite(limitQuery) && limitQuery > 0
+        ? Math.min(Math.floor(limitQuery), 100)
+        : 10;
+    const skip = (page - 1) * limit;
+
+    const filter = {
       restaurantId,
       paymentStatus: "paid",
-    })
+    };
+
+    const totalOrders = await Order.countDocuments(filter);
+
+    const orders = await Order.find(filter)
       .sort({ createdAt: -1 })
+      .skip(skip)
       .limit(limit);
+
+    const totalPages = totalOrders === 0 ? 0 : Math.ceil(totalOrders / limit);
 
     return res.json({
       success: true,
       count: orders.length,
+      totalOrders,
+      page,
+      limit,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1,
       orders,
     });
   }
@@ -564,19 +585,60 @@ export const getCurrentOrderForRider = TryCatch(async (req, res) => {
     message: "Rider id is required",
   });
 } 
+  const statusQuery =
+    typeof req.query.status === "string" ? req.query.status : "current";
+  const normalizedStatus = statusQuery.toLowerCase();
 
-  const order = await Order.findOne({
-    riderId,
-    status: { $ne: "delivered" },
-  }).populate("restaurantId");
+  const currentStatuses = [
+    "rider_assigned",
+    "picked_up",
+    "ready_for_rider",
+    "accepted",
+    "preparing",
+    "placed",
+  ];
+  const pastStatuses = ["delivered", "cancelled"];
+  const allStatuses = [...currentStatuses, ...pastStatuses];
 
-  if (!order) {
-    return res.status(404).json({
-      message: "Order not found",
+  if (!["current", "past", ...allStatuses].includes(normalizedStatus)) {
+    return res.status(400).json({
+      message:
+        "Invalid status. Use current, past, or one of: placed, accepted, preparing, ready_for_rider, rider_assigned, picked_up, delivered, cancelled",
     });
   }
 
-  res.json(order);
+  if (normalizedStatus === "current") {
+    const order = await Order.findOne({
+      riderId,
+      status: { $in: currentStatuses },
+    })
+      .sort({ updatedAt: -1 })
+      .populate("restaurantId");
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    return res.json(order);
+  }
+
+  const statusFilter =
+    normalizedStatus === "past"
+      ? { $in: pastStatuses }
+      : normalizedStatus;
+
+  const orders = await Order.find({
+    riderId,
+    status: statusFilter,
+  })
+    .sort({ updatedAt: -1 })
+    .populate("restaurantId");
+
+  return res.json({
+    orders,
+  });
 });
 
 export const updateOrderStatusRider = TryCatch(async (req, res) => {

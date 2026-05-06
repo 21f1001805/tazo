@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "leaflet-routing-machine";
 import axios from "axios";
 import { realtimeService } from "../main";
 
@@ -40,22 +39,43 @@ const Routing = ({
   const map = useMap();
 
   useEffect(() => {
-    const control = L.Routing.control({
-      waypoints: [L.latLng(from), L.latLng(to)],
-      lineOptions: {
-        styles: [{ color: "#E23744", weight: 5 }],
-      },
-      addWaypoints: false,
-      draggableWaypoints: false,
-      show: false,
-      createMarker: () => null,
-      router: L.Routing.osrmv1({
-        serviceUrl: "https://router.project-osrm.org/route/v1",
-      }),
-    }).addTo(map);
+    let control: any = null;
+    let mounted = true;
+
+    const initRouting = async () => {
+      // Ensure plugin can attach to Leaflet in ESM/Vite builds.
+      (window as any).L = L;
+      await import("leaflet-routing-machine/dist/leaflet-routing-machine.js");
+
+      if (!mounted) return;
+
+      if (!(L as any).Routing?.control) {
+        console.error("Leaflet Routing Machine failed to load");
+        return;
+      }
+
+      control = (L as any).Routing.control({
+        waypoints: [L.latLng(from), L.latLng(to)],
+        lineOptions: {
+          styles: [{ color: "#E23744", weight: 5 }],
+        },
+        addWaypoints: false,
+        draggableWaypoints: false,
+        show: false,
+        createMarker: () => null,
+        router: (L as any).Routing.osrmv1({
+          serviceUrl: "https://router.project-osrm.org/route/v1",
+        }),
+      }).addTo(map);
+    };
+
+    initRouting();
 
     return () => {
-      map.removeControl(control);
+      mounted = false;
+      if (control) {
+        map.removeControl(control);
+      }
     };
   }, [from, to, map]);
 

@@ -19,7 +19,7 @@ describe("getCurrentRiderOrder", () => {
     const result = await getCurrentRiderOrder("http://localhost:5005", "jwt-token");
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      "http://localhost:5005/api/rider/order/current",
+      "http://localhost:5005/api/rider/order/current?status=current",
       {
         headers: {
           Authorization: "Bearer jwt-token",
