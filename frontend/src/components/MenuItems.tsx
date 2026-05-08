@@ -136,7 +136,7 @@ const MenuItems = ({ items, onItemDeleted, isSeller }: MenuItemsProps) => {
 
                     <button
                       onClick={() => handleDelete(item._id)}
-                      className="rounded-lg p-2 text-red-500 transition hover:bg-red-50"
+                      className="rounded-lg p-2 text-orange-600 transition hover:bg-orange-50"
                     >
                       <BiTrash size={18} />
                     </button>
@@ -150,7 +150,7 @@ const MenuItems = ({ items, onItemDeleted, isSeller }: MenuItemsProps) => {
                     className={`flex items-center justify-center rounded-lg p-2 ${
                       !item.isAvailable || isLoading
                         ? "cursor-not-allowed text-gray-400"
-                        : "text-red-500 transition hover:bg-red-50"
+                        : "text-orange-600 transition hover:bg-orange-50"
                     }`}
                   >
                     {isLoading ? (
@@ -170,3 +170,8 @@ const MenuItems = ({ items, onItemDeleted, isSeller }: MenuItemsProps) => {
 };
 
 export default MenuItems;
+
+
+
+
+

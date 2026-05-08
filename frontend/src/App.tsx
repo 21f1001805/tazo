@@ -26,7 +26,7 @@ const App = () => {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="glass-card px-8 py-6">
-          <h1 className="text-2xl font-bold text-red-500">Loading...</h1>
+          <h1 className="text-2xl font-bold text-orange-600">Loading...</h1>
         </div>
       </div>
     );
@@ -74,3 +74,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+

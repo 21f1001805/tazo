@@ -75,7 +75,7 @@ const Admin = () => {
           onClick={() => setTab("restaurant")}
           className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
             tab === "restaurant"
-              ? "bg-[#E23744] text-white"
+              ? "bg-[#e14b14] text-white"
               : "bg-white text-slate-600"
           }`}
         >
@@ -85,7 +85,7 @@ const Admin = () => {
         <button
           onClick={() => setTab("rider")}
           className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
-            tab === "rider" ? "bg-[#E23744] text-white" : "bg-white text-slate-600"
+            tab === "rider" ? "bg-[#e14b14] text-white" : "bg-white text-slate-600"
           }`}
         >
           Riders
@@ -123,3 +123,8 @@ const Admin = () => {
 };
 
 export default Admin;
+
+
+
+
+

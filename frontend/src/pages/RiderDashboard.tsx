@@ -259,7 +259,7 @@ const RiderDashboard = () => {
           />
 
           <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 text-sm text-gray-600 hover:bg-gray-50">
-            <BiUpload className="h-5 w-5 text-red-500" />
+            <BiUpload className="h-5 w-5 text-orange-600" />
             {image ? image.name : "Upload your image"}
             <input
               type="file"
@@ -270,7 +270,7 @@ const RiderDashboard = () => {
           </label>
 
           <button
-            className="w-full rounded-lg py-3 text-sm font-semibold text-white bg-[#e23744]"
+            className="w-full rounded-lg py-3 text-sm font-semibold text-white bg-[#e14b14]"
             disabled={submitting}
             onClick={handleSubmit}
           >
@@ -319,7 +319,7 @@ const RiderDashboard = () => {
                   ? "bg-gray-400"
                   : profile.isAvailble
                   ? "bg-gray-600"
-                  : "bg-[#e23744]"
+                  : "bg-[#e14b14]"
               }`}
             >
               {toggling
@@ -392,3 +392,8 @@ const RiderDashboard = () => {
 };
 
 export default RiderDashboard;
+
+
+
+
+

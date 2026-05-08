@@ -50,7 +50,7 @@ const RiderOrderRequest = ({ orderId, onAccepted }: Props) => {
   };
   return (
     <div className="rounded-xl bg-white p-4 shadow-sm border border-green-300 space-y-3">
-      <p className="text-center text-xs font-semibold text-red-600">
+      <p className="text-center text-xs font-semibold text-orange-700">
         Accept within {secondsLeft}
       </p>
 
@@ -74,3 +74,7 @@ const RiderOrderRequest = ({ orderId, onAccepted }: Props) => {
 };
 
 export default RiderOrderRequest;
+
+
+
+

@@ -65,7 +65,7 @@ const RestaurantSales = ({ restaurantId }: Props) => {
   }
 
   if (error) {
-    return <p className="text-sm text-red-500">{error}</p>;
+    return <p className="text-sm text-orange-600">{error}</p>;
   }
 
   if (!sales) {
@@ -152,3 +152,8 @@ const RestaurantSales = ({ restaurantId }: Props) => {
 };
 
 export default RestaurantSales;
+
+
+
+
+

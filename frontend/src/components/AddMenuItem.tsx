@@ -74,7 +74,7 @@ const AddMenuItem = ({ onItemAdded }: { onItemAdded: () => void }) => {
       />
 
       <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 text-sm text-gray-600 hover:bg-gray-50">
-        <BiUpload className="h-5 w-5 text-red-500" />
+        <BiUpload className="h-5 w-5 text-orange-600" />
         {image ? image.name : "Upload restaurant image"}
         <input
           type="file"
@@ -87,7 +87,7 @@ const AddMenuItem = ({ onItemAdded }: { onItemAdded: () => void }) => {
       <button
         disabled={loading}
         onClick={handleSubmit}
-        className="w-full rounded-lg text-white text-sm py-3 font-semibold transition bg-red-500 cursor-pointer"
+        className="w-full rounded-lg text-white text-sm py-3 font-semibold transition bg-orange-600 hover:bg-orange-700 cursor-pointer"
       >
         {loading ? "Adding..." : "Add Item"}
       </button>
@@ -96,3 +96,7 @@ const AddMenuItem = ({ onItemAdded }: { onItemAdded: () => void }) => {
 };
 
 export default AddMenuItem;
+
+
+
+

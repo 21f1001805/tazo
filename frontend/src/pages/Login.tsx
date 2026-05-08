@@ -51,7 +51,7 @@ const Login = () => {
     <div className="flex min-h-screen items-center justify-center px-4 py-10">
       <div className="glass-card w-full max-w-md space-y-6 p-7">
         <div>
-          <h1 className="text-center text-3xl font-extrabold tracking-tight text-[#E23744]">
+          <h1 className="text-center text-3xl font-extrabold tracking-tight text-[#FF5A1F]">
             Tazo
           </h1>
           <p className="muted-text mt-2 text-center text-sm">
@@ -70,9 +70,9 @@ const Login = () => {
 
         <p className="text-center text-xs text-slate-400">
           By continuing, you agree with our{" "}
-          <span className="font-semibold text-[#E23744]">Terms of Service</span>{" "}
+          <span className="font-semibold text-[#FF5A1F]">Terms of Service</span>{" "}
           &{" "}
-          <span className="font-semibold text-[#E23744]">Privacy Policy</span>
+          <span className="font-semibold text-[#FF5A1F]">Privacy Policy</span>
         </p>
       </div>
     </div>
@@ -80,3 +80,8 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
+
+

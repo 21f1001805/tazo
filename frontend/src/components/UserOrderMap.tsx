@@ -36,7 +36,7 @@ const Routing = ({
     const control = L.Routing.control({
       waypoints: [L.latLng(from), L.latLng(to)],
       lineOptions: {
-        styles: [{ color: "#E23744", weight: 5 }],
+        styles: [{ color: "#FF5A1F", weight: 5 }],
       },
       addWaypoints: false,
       draggableWaypoints: false,
@@ -85,3 +85,7 @@ const UserOrderMap = ({ riderLocation, deliveryLocation }: props) => {
 };
 
 export default UserOrderMap;
+
+
+
+

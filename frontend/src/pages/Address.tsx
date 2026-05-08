@@ -220,7 +220,7 @@ href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         onClick={addAddress}
         className="flex items-center justify-center gap-2 rounded-lg
 
-bg-[#E23744] px-4 py-3 text-white hover:bg-[#d32f3a] disabled:opacity-
+bg-[#e14b14] px-4 py-3 text-white hover:bg-[#b83a0e] disabled:opacity-
 50"
       >
         {adding ? <BiLoader className="animate-spin" /> : <BiPlus />}
@@ -257,7 +257,7 @@ medium"
               <button
                 onClick={() => deleteAddress(addr._id)}
                 disabled={deletingId === addr._id}
-                className="rounded-lg p-2 text-red-500 hover:bg-red-50
+                className="rounded-lg p-2 text-orange-600 hover:bg-orange-50
 disabled:opacity-50"
               >
                 {deletingId === addr._id ? (
@@ -275,3 +275,7 @@ disabled:opacity-50"
 };
 
 export default AddAddressPage;
+
+
+
+

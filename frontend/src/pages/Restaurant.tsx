@@ -101,7 +101,7 @@ const Restaurant = () => {
               onClick={() => setTab(t.key as SellerTab)}
               className={`flex-1 px-4 py-3 text-sm font-medium transition ${
                 tab === t.key
-                  ? "border-b-2 border-red-500 text-red-500"
+                  ? "border-b-2 border-orange-500 text-orange-600"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -131,3 +131,9 @@ const Restaurant = () => {
 };
 
 export default Restaurant;
+
+
+
+
+
+

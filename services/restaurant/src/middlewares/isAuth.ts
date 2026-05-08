@@ -36,7 +36,7 @@ Promise<void> =>{
         }
         const decodedValue = jwt.verify(token, process.env.JWT_SEC as string) as JwtPayload;
 
-        console.log("Decoded token:", decodedValue);
+        // console.log("Decoded token:", decodedValue);
 
         if(!decodedValue || !decodedValue.user){
             res.status(401).json({

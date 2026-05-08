@@ -15,7 +15,7 @@ const statusColor = (status: string) => {
     case "placed":
       return "bg-yellow-100 text-yellow-700";
     case "accepted":
-      return "bg-orange-100 text-orange-700";
+      return "bg-orange-100 text-orange-800";
     case "preparing":
       return "bg-blue-100 text-blue-700";
     case "ready_for_rider":
@@ -106,7 +106,7 @@ const OrderCard = ({ order, onStatusUpdate }: props) => {
               key={status}
               disabled={loading}
               onClick={() => updateStatus(status)}
-              className="rounded-lg bg-[#e23744] px-3 py-1 text-xs text-white hover:bg-[#d32f3a] disabled:opacity-50"
+              className="rounded-lg bg-[#e14b14] px-3 py-1 text-xs text-white hover:bg-[#b83a0e] disabled:opacity-50"
             >
               Mark as {status.replaceAll("_", " ")}
             </button>
@@ -117,7 +117,7 @@ const OrderCard = ({ order, onStatusUpdate }: props) => {
       {order.status === "ready_for_rider" && retryVisible && (
         <div className="pt-2">
           <button
-            className="w-full rounded-lg border border-[#e23744] py-2 text-xs font-semibold text-[#e23744] hover:bg-red-50 disabled:opacity-50"
+            className="w-full rounded-lg border border-[#ff5a1f] py-2 text-xs font-semibold text-[#ff5a1f] hover:bg-orange-50 disabled:opacity-50"
             onClick={() => updateStatus("ready_for_rider")}
           >
             Retry Ready for Rider
@@ -129,3 +129,7 @@ const OrderCard = ({ order, onStatusUpdate }: props) => {
 };
 
 export default OrderCard;
+
+
+
+

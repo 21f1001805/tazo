@@ -127,7 +127,7 @@ const Checkout = () => {
           }
         },
         theme: {
-          color: "#E23744",
+          color: "#FF5A1F",
         },
       };
 
@@ -165,7 +165,7 @@ const Checkout = () => {
               key={add._id}
               className={`flex cursor-pointer gap-3 rounded-xl border p-3 transition ${
                 selectedAddressId === add._id
-                  ? "border-red-300 bg-red-50"
+                  ? "border-orange-300 bg-orange-50"
                   : "border-slate-200 hover:bg-slate-50"
               }`}
             >
@@ -247,3 +247,8 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+
+
+
+

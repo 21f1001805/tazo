@@ -103,7 +103,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
             )}
 
             <div className="mt-1 flex items-center gap-2 text-sm text-slate-500">
-              <BiMapPin className="h-4 w-4 text-red-500" />
+              <BiMapPin className="h-4 w-4 text-orange-600" />
               {restaurant.autoLocation.formattedAddress ||
                 "Location unavalable"}
             </div>
@@ -134,7 +134,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
         <div className="flex items-center justify-between border-t border-slate-100 pt-3">
           <span
             className={`text-sm font-medium ${
-              isOpen ? "text-green-600" : "text-red-500"
+              isOpen ? "text-green-600" : "text-orange-600"
             }`}
           >
             {isOpen ? "OPEN" : "CLOSED"}
@@ -157,7 +157,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
                 onClick={toggleOpenStatus}
                 className={`rounded-lg px-4 py-1.5 text-sm font-medium text-white ${
                   isOpen
-                  ? "bg-red-600 hover:bg-red-700"
+                  ? "bg-orange-700 hover:bg-orange-800"
                   : "bg-green-600 hover:bg-green-700"
                 }`}
               >
@@ -168,7 +168,7 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
             {isSeller && (
               <button
                 onClick={logoutHandler}
-                className="rounded-lg bg-red-600 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-red-700"
+                className="rounded-lg bg-orange-700 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-orange-800"
               >
                 Logout
               </button>
@@ -185,3 +185,8 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
 };
 
 export default RestaurantProfile; 
+
+
+
+
+

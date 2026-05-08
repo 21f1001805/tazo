@@ -81,7 +81,7 @@ const Home = () => {
   return (
     <div className="page-shell space-y-5">
       <div className="glass-card overflow-hidden p-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-red-500">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-600">
           Curated Nearby
         </p>
         <h1 className="section-title mt-2">Discover Great Food Around You</h1>
@@ -122,3 +122,8 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+

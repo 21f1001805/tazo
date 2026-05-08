@@ -46,7 +46,7 @@ const SelectRole = () => {
               className={`
                     w-full rounded-xl border px-4 py-3 text-sm font-medium capitalize transition ${
                       role === r
-                        ? "border-[#cb1e2d] bg-[#E23744] text-white"
+                        ? "border-[#b83a0e] bg-[#e14b14] text-white"
                         : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                     }
                     `}
@@ -60,7 +60,7 @@ const SelectRole = () => {
           onClick={addRole}
           className={`w-full rounded-xl px-4 py-3 text-sm font-semibold transition ${
             role
-              ? "border-[#E23744] bg-[#E23744] text-white hover:bg[#d32f3a]"
+              ? "border-[#b83a0e] bg-[#e14b14] text-white hover:bg-[#b83a0e]"
               : "bg-gray-200 text-gray-400 cursor-not-allowed"
           }`}
         >
@@ -72,3 +72,7 @@ const SelectRole = () => {
 };
 
 export default SelectRole;
+
+
+
+

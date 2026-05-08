@@ -21,7 +21,7 @@ const Account = () => {
     <div className="min-h-screen px-4 py-6">
       <div className="glass-card mx-auto max-w-md overflow-hidden">
         <div className="flex items-center gap-4 border-b border-slate-100 p-5">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#E23744] to-[#c01f2f] text-xl font-semibold text-white">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#FF5A1F] to-[#D9480F] text-xl font-semibold text-white">
             {firstLetter}
           </div>
           <div>
@@ -34,21 +34,21 @@ const Account = () => {
             className="flex cursor-pointer items-center gap-4 p-5 transition hover:bg-white/80"
             onClick={() => navigate("/orders")}
           >
-            <BiPackage className="h-5 w-5 text-red-500" />
+            <BiPackage className="h-5 w-5 text-orange-600" />
             <span className="font-medium">Your Orders</span>
           </div>
           <div
             className="flex cursor-pointer items-center gap-4 p-5 transition hover:bg-white/80"
             onClick={() => navigate("/address")}
           >
-            <BiMapPin className="h-5 w-5 text-red-500" />
+            <BiMapPin className="h-5 w-5 text-orange-600" />
             <span className="font-medium">Addresses</span>
           </div>
           <div
             className="flex cursor-pointer items-center gap-4 p-5 transition hover:bg-white/80"
             onClick={logoutHandler}
           >
-            <BiLogOut className="h-5 w-5 text-red-500" />
+            <BiLogOut className="h-5 w-5 text-orange-600" />
             <span className="font-medium">Logout</span>
           </div>
         </div>
@@ -58,3 +58,8 @@ const Account = () => {
 };
 
 export default Account;
+
+
+
+
+

@@ -76,7 +76,7 @@ const AddRestaurant = ({ fetchMyRestaurant }: props) => {
         />
 
         <label className="flex cursor-pointer items-center gap-3 rounded-lg border p-4 text-sm text-gray-600 hover:bg-gray-50">
-          <BiUpload className="h-5 w-5 text-red-500" />
+          <BiUpload className="h-5 w-5 text-orange-600" />
           {image ? image.name : "Upload restaurant image"}
           <input
             type="file"
@@ -87,7 +87,7 @@ const AddRestaurant = ({ fetchMyRestaurant }: props) => {
         </label>
 
         <div className="flex items-start gap-3 rounded-lg boder p-4">
-          <BiMapPin className="mt-0.5 h-5 w-5 text-red-500" />
+          <BiMapPin className="mt-0.5 h-5 w-5 text-orange-600" />
           <div className="text-sm">
             {loadingLocation
               ? "Fetching you location..."
@@ -96,7 +96,7 @@ const AddRestaurant = ({ fetchMyRestaurant }: props) => {
         </div>
 
         <button
-          className="w-full rounded-lg py-3 text-sm font-semibold text-white bg-[#e23744]"
+          className="w-full rounded-lg py-3 text-sm font-semibold text-white bg-[#e14b14]"
           disabled={submitting}
           onClick={handleSubmit}
         >
@@ -108,3 +108,7 @@ const AddRestaurant = ({ fetchMyRestaurant }: props) => {
 };
 
 export default AddRestaurant;
+
+
+
+

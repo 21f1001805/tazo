@@ -36,13 +36,13 @@ const PaymentSuccess = () => {
 
         <div className="space-y-2 pt-2">
           <button
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e23744] py-3 text-sm font-semibold text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e14b14] py-3 text-sm font-semibold text-white hover:bg-[#b83a0e]"
             onClick={() => navigate("/")}
           >
             Order More <BsArrowRight size={16} />
           </button>
           <button
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e23744] py-3 text-sm font-semibold text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#e14b14] py-3 text-sm font-semibold text-white hover:bg-[#b83a0e]"
             onClick={() => navigate("/orders")}
           >
             Your orders <BsArrowRight size={16} />
@@ -54,3 +54,7 @@ const PaymentSuccess = () => {
 };
 
 export default PaymentSuccess;  
+
+
+
+
