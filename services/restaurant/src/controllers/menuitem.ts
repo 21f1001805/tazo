@@ -44,10 +44,20 @@ export const addMenuItem = TryCatch(async (req: AuthenticatedRequest, res) => {
     });
   }
 
+  console.log(
+    "[restaurant:item:new] Uploading image via utils:",
+    process.env.UTILS_SERVICE
+  );
+
   const { data: uploadResult } = await axios.post(
     `${process.env.UTILS_SERVICE}/api/upload`,
     {
       buffer: fileBuffer.content,
+    },
+    {
+      headers: {
+        "x-internal-key": process.env.INTERNAL_SERVICE_KEY,
+      },
     }
   );
 

@@ -58,3 +58,8 @@ export const verifyRazorpayPayment = async (req: Request, res: Response) => {
     message: "Payment verified successfully",
   });
 };
+
+import dotenv from "dotenv";
+
+dotenv.config();
+

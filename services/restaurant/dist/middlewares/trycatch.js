@@ -4,8 +4,8 @@ const TryCatch = (handler) => {
             await handler(req, res, next);
         }
         catch (err) {
-            res.status(500).json({
-                message: err.message,
+            res.status(err?.response?.status || 500).json({
+                message: err?.response?.data?.message || err?.message || "Something went wrong",
             });
         }
     };
